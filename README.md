@@ -1,6 +1,6 @@
 # Obfuscate + Deobfuscate Code Free
 Make by Neczx
-# Code obfuscate + web
+# Code obfuscate + web (HTML + JavaScript)
 Current limitations of this version: Supports only basic commands (push_int, push_str, add, print, halt) 
 Strings are not fully encrypted (placeholders will be used) 
 It's still a basic VM (more advanced instructions are needed)
