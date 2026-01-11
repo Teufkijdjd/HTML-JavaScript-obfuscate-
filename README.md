@@ -1,6 +1,7 @@
 # Obfuscate + Deobfuscate Code Free
 Make by Neczx
 Only works with Roblox
+HTML is used for make websites, and Python is used for make Discord websitesting
 # Obfuscate Luau Code HTML
 Roblox-specific capabilities:
 Static deobf ❌ 
