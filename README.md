@@ -30,3 +30,4 @@ https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/HTML%20Deobfuscate
 https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/Python%20Obfuscate%20Luau%20Code
 # Deobfuscate Luau Code Python
 Extract all types of strings (table / math / rotate / xor / one-shot) ✅ Auto-infer decoder (no need to know the formula beforehand) ✅ Inline strings back into AST ✅ Remove junk / fake VM / fake state ✅ Flatten control-flow (logic level) ✅ VM opcode → obtain logic trace (not source 1:1) ⚠️
+https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/Python%20deobfuscate%20Luau%20code
