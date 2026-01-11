@@ -1,5 +1,6 @@
 # Obfuscate + Deobfuscate Code Free
 Make by Neczx
+Only works with Roblox
 # Obfuscate Code HTML
 Roblox-specific capabilities:
 Static deobf ❌ 
