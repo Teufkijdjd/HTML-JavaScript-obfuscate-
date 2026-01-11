@@ -1,0 +1,95 @@
+import random, re
+
+R = random.randint
+def rn(): return "_" + "".join(random.choice("abcdefghijklmnopqrstuvwxyz") for _ in range(7))
+
+# keyless reversible transform (no external key)
+def enc(s):
+    r = R(1,7)
+    n = R(3,15)
+    d = []
+    for i,ch in enumerate(s):
+        c = ord(ch)
+        c = ((c + n) << r | (c + n) >> (8-r)) & 255
+        c = (c + (i % 7)) & 255
+        d.append(c)
+    return r,n,d
+
+def obfuscate_luau(src: str) -> str:
+    pool = []
+
+    def repl(m):
+        s = m.group(1)
+        r,n,d = enc(s)
+        idx = len(pool)
+        pool.append((r,n,d))
+        return f"__S({idx})"
+
+    # replace all strings
+    src = re.sub(r'"(.*?)"', repl, src, flags=re.S)
+
+    P = rn(); D = rn(); RUN = rn(); ST = rn()
+
+    pool_code = f"local {P}={{\n"
+    for r,n,d in pool:
+        pool_code += f"  {{{r},{n},{{{','.join(map(str,d))}}}}},\n"
+    pool_code += "}\n"
+
+    decoder = f"""
+local function {D}(i)
+ local t={P}[i+1]
+ if not t then return "" end
+ local r,n,d=t[1],t[2],t[3]
+ local s=""
+ for j=1,#d do
+  local c=(d[j]-(j%7))&255
+  c=((c>>r)|(c<<(8-r)))&255
+  c=(c-n)&255
+  s=s..string.char(c)
+ end
+ {P}[i+1]=nil -- ONE-SHOT
+ return s
+end
+"""
+
+    src = re.sub(r'__S\((\d+)\)', rf'{D}(\1)', src)
+
+    fake_noise = f"""
+do
+ local x=0
+ for i=1,{R(60,120)} do
+  x=(x+i*3)%{R(11,29)}
+ end
+end
+"""
+
+    wrapper = f"""
+-- ☠️ FULL SYSTEM Luau OBF (Python)
+{fake_noise}
+{pool_code}
+{decoder}
+
+do
+ local {RUN}=false
+ if {RUN} then return end
+ {RUN}=true
+ local {ST}=1
+ while true do
+  if {ST}==1 then
+{src}
+   {ST}=2
+  elseif {ST}==2 then
+   break
+  end
+ end
+end
+"""
+    return wrapper
+
+if __name__ == "__main__":
+    with open("input.luau","r",encoding="utf-8") as f:
+        src = f.read()
+    out = obfuscate_luau(src)
+    with open("output_obf.luau","w",encoding="utf-8") as f:
+        f.write(out)
+    print("[+] DONE -> output_obf.luau")
