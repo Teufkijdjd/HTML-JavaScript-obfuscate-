@@ -1,40 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VM Lua Obfuscator (Web Version)</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #0f0f1a;
-      color: #e0e0ff;
-      margin: 0;
-      padding: 20px;
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    h1 {
-      color: #7dd3fc;
-      text-align: center;
-    }
-    textarea, input, button {
-      font-family: 'Courier New', monospace;
-      background: #1a1a2e;
-      color: #e0e0ff;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 10px;
-      margin: 8px 0;
-    }
-    textarea {
-      width: 100%;
-      height: 140px;
-      resize: vertical;
-    }
+<meta charset="UTF-8">
+<title>ROBLOX ABSOLUTE OBF</title>
+<style>
+body{background:#030303;color:#ff1b1b;font-family:monospace}
+textarea{width:100%;height:240px;background:#000;color:#f00;border:1px solid #222;padding:8px}
+button{background:#111;color:#0ff;border:1px solid #333;padding:10px;margin:6px}
+</style>
+</head>
+<body>
+<h2>☠️ ROBLOX LUAU — ABSOLUTE OBFUSCATION</h2>
+<textarea id="in" placeholder="Clean Luau"></textarea>
+<button onclick="obf()">☠️ ABSOLUTE OBF</button>
+<textarea id="out"></textarea>
+
+<script>
+const R=(a,b)=>Math.floor(Math.random()*(b-a)+a);
+const RN=()=>"_"+Math.random().toString(36).slice(2,9);
+
+// rotate helpers
+const rol=(v,r)=>((v<<r)|(v>>(8-r)))&255;
+const ror=(v,r)=>((v>>r)|(v<<(8-r)))&255;
+
+// encrypt per-string with time-noise seed
+function enc(s){
+ let k=R(30,240), r=R(1,7), n=R(3,17), d=[];
+ for(let i=0;i<s.length;i++){
+  let c=s.charCodeAt(i);
+  c=rol((c^k)+n,r);
+  d.push((c+R(1,9))&255);
+ }
+ return {k,r,n,d};
+}
+
+function obf(){
+ let src=document.getElementById("in").value;
+ let pool=[];
+ src=src.replace(/"(.*?)"/g,(m,s)=>{
+  let e=enc(s); let i=pool.length; pool.push(e);
+  return `__S(${i})`;
+ });
+
+ let P=RN(), D=RN(), VM=RN(), T=RN();
+
+ // pool
+ let poolCode=`local ${P}={`;
+ pool.forEach(e=>{
+  poolCode+=`{${e.k},${e.r},${e.n},{${e.d.join(",")}}},`;
+ });
+ poolCode+=`}\n`;
+
+ // time-based one-shot decrypt
+ let dec=`
+local ${T}=os.clock()
+local function ${D}(i)
+ local t=${P}[i+1]; if not t then return "" end
+ local k,r,n,d=t[1],t[2],t[3],t[4]
+ local s=""; local tk=math.floor(${T}*1000)%255
+ for j=1,#d do
+  local c=(d[j]-((j+tk)%7))&255
+  c=ror(c,r)
+  c=((c-n)&255)~k
+  s=s..string.char(c)
+ end
+ ${P}[i+1]=nil -- ONE-SHOT
+ return s
+end
+`;
+
+ src=src.replace(/__S\((\d+)\)/g,`${D}($1)`);
+
+ // fake VM swarm
+ let fakeVM=`
+do
+ for _=1,${R(4,8)} do
+  (function()
+   local x=0; for i=1,${R(40,90)} do x=(x+i*3)%${R(11,29)} end
+  end)()
+ end
+end
+`;
+
+ // anti-tamper checksum
+ let chk=`
+do
+ local c=0; for i=1,64 do c=(c+i)%19 end
+ if c~=8 then while true do end end
+end
+`;
+
+ // real VM wrapper (opcode shuffle illusion)
+ let vm=`
+local function ${VM}()
+ local pc=1
+ local code={
+  function() ${src} end,
+  function() return end,
+ }
+ while code[pc] do
+  local ok=pcall(code[pc]); if not ok then break end
+  pc=pc+1
+ end
+end
+`;
+
+ let out=`-- ☠️ ABSOLUTE ROBLOX OBF
+${fakeVM}
+${chk}
+${poolCode}
+${dec}
+${vm}
+${VM}()
+`;
+
+ document.getElementById("out").value=out;
+}
+</script>
+</body>
+</html>    }
     button {
       background: #6366f1;
       border: none;
