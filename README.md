@@ -1,7 +1,7 @@
 # Obfuscate + Deobfuscate Code Free
 Make by Neczx
 Only works with Roblox
-# Obfuscate Code HTML
+# Obfuscate Luau Code HTML
 Roblox-specific capabilities:
 Static deobf ❌ 
 AI code reading ❌ 
@@ -9,7 +9,7 @@ String dump ❌
 Table dump ❌ 
 Beautify ❌
 https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/HTML%20Obfuscate%20Luau%20Cobe
-# Deobfuscate Code HTML
+# Deobfuscate Luau Code HTML
 Roblox-specific capabilities: 
 Decode \ddd \x \u{} (Luau compatible) ✅
 XOR / Base64 auto decode (popular Roblox obf string) ✅
@@ -20,3 +20,9 @@ Detect Anti-debug / Anti-dump ✅
 Inline getfenv, _ENV, setfenv trick✅ 
 Luau-safe (does not break syntax) ✅
 https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/HTML%20Deobfuscate%20Luau%20Code
+# obfuscate Luau Code Python
+‎🔥 Features (Short Summary) 
+‎No string plaintext ❌ 
+‎Keyless transform (no external key/time/seed) 🔐 
+‎One-shot decrypt (read once and delete) 🧨 
+‎Control-Flow Flatten (state wrapper) 🔀 Fake noise interference with analysis 🎭 Luau-safe, runs reliably ✅
