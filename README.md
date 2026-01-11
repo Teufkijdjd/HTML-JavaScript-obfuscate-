@@ -26,3 +26,4 @@ https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/HTML%20Deobfuscate
 ‎Keyless transform (no external key/time/seed) 🔐 
 ‎One-shot decrypt (read once and delete) 🧨 
 ‎Control-Flow Flatten (state wrapper) 🔀 Fake noise interference with analysis 🎭 Luau-safe, runs reliably ✅
+https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/Python%20Obfuscate%20Luau%20Code
