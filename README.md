@@ -18,3 +18,4 @@ Roblox-specific capabilities:
 ✅ Detect Anti-debug / Anti-dump 
 ✅ Inline getfenv, _ENV, setfenv trick 
 ✅ Luau-safe (does not break syntax)
+https://github.com/Teufkijdjd/Obfuscate-Deobfuscate/blob/main/Deobfuscate%20Luau%20Cobe
